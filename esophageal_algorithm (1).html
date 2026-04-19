@@ -1,0 +1,1664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Esophageal & Gastric Cancer Surgery — Clinical Algorithm</title>
+<style>
+  :root {
+    --c-bg: #0d1117;
+    --c-bg2: #161b22;
+    --c-bg3: #1c2128;
+    --c-border: rgba(255,255,255,0.08);
+    --c-border2: rgba(255,255,255,0.15);
+    --c-text: #e6edf3;
+    --c-text2: #8b949e;
+    --c-text3: #6e7681;
+    --c-blue: #1f6feb;
+    --c-blue-l: #388bfd;
+    --c-blue-bg: rgba(31,111,235,0.12);
+    --c-teal: #0e6b6b;
+    --c-teal-l: #39d353;
+    --c-green: #1a7f37;
+    --c-green-l: #3fb950;
+    --c-green-bg: rgba(26,127,55,0.12);
+    --c-amber: #9e6a03;
+    --c-amber-l: #e3b341;
+    --c-amber-bg: rgba(158,106,3,0.15);
+    --c-red: #b62324;
+    --c-red-l: #f85149;
+    --c-red-bg: rgba(182,35,36,0.12);
+    --c-purple: #6e40c9;
+    --c-purple-l: #a371f7;
+    --c-purple-bg: rgba(110,64,201,0.12);
+    --c-accent: #58a6ff;
+    --radius: 8px;
+    --radius-lg: 12px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--c-bg);
+    color: var(--c-text);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+  /* Header */
+  .header {
+    background: var(--c-bg2);
+    border-bottom: 1px solid var(--c-border2);
+    padding: 0 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    height: 56px;
+  }
+  .header-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--c-text);
+    white-space: nowrap;
+  }
+  .header-subtitle {
+    font-size: 12px;
+    color: var(--c-text2);
+  }
+  .nav {
+    display: flex;
+    gap: 2px;
+    margin-left: auto;
+    overflow-x: auto;
+  }
+  .nav-btn {
+    background: none;
+    border: none;
+    color: var(--c-text2);
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: var(--radius);
+    font-size: 13px;
+    white-space: nowrap;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .nav-btn:hover { background: var(--c-bg3); color: var(--c-text); }
+  .nav-btn.active { background: var(--c-blue-bg); color: var(--c-blue-l); }
+  .nav-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: currentColor; opacity: 0.6;
+  }
+  /* Main */
+  .main { max-width: 1200px; margin: 0 auto; padding: 24px; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+  /* Phase headers */
+  .phase-header {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 20px; padding-bottom: 16px;
+    border-bottom: 1px solid var(--c-border);
+  }
+  .phase-badge {
+    background: var(--c-blue-bg); color: var(--c-blue-l);
+    border: 1px solid rgba(56,139,253,0.3);
+    font-size: 11px; font-weight: 600;
+    padding: 3px 10px; border-radius: 20px;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .phase-title { font-size: 22px; font-weight: 600; }
+  .phase-desc { font-size: 13px; color: var(--c-text2); margin-top: 2px; }
+  /* Grid layouts */
+  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  @media (max-width: 900px) {
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  }
+  /* Cards */
+  .card {
+    background: var(--c-bg2);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+  }
+  .card-title {
+    font-size: 13px; font-weight: 600;
+    margin-bottom: 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .card-icon {
+    width: 20px; height: 20px; border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 700; flex-shrink: 0;
+  }
+  /* Step cards */
+  .step-card {
+    background: var(--c-bg2);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    position: relative;
+    transition: border-color 0.2s;
+  }
+  .step-card:hover { border-color: var(--c-border2); }
+  .step-num {
+    position: absolute; top: -1px; left: 16px;
+    background: var(--c-bg3);
+    border: 1px solid var(--c-border);
+    border-top: none;
+    font-size: 10px; font-weight: 700;
+    color: var(--c-text2);
+    padding: 2px 8px;
+    border-radius: 0 0 6px 6px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .step-title {
+    font-size: 14px; font-weight: 600;
+    margin: 12px 0 10px;
+  }
+  /* Lists */
+  .check-list { list-style: none; }
+  .check-list li {
+    padding: 4px 0;
+    color: var(--c-text2);
+    font-size: 13px;
+    display: flex; align-items: flex-start; gap: 8px;
+  }
+  .check-list li::before {
+    content: '';
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--c-text3);
+    flex-shrink: 0; margin-top: 7px;
+  }
+  .check-list li strong { color: var(--c-text); }
+  /* Thresholds / flags */
+  .flag {
+    display: flex; align-items: flex-start; gap: 8px;
+    padding: 8px 10px;
+    border-radius: var(--radius);
+    margin: 6px 0;
+    font-size: 12px; line-height: 1.5;
+  }
+  .flag-red { background: var(--c-red-bg); border-left: 3px solid var(--c-red-l); color: #ffa198; }
+  .flag-amber { background: var(--c-amber-bg); border-left: 3px solid var(--c-amber-l); color: #e3b341; }
+  .flag-green { background: var(--c-green-bg); border-left: 3px solid var(--c-green-l); color: #7ee787; }
+  .flag-blue { background: var(--c-blue-bg); border-left: 3px solid var(--c-blue-l); color: #79c0ff; }
+  .flag-purple { background: var(--c-purple-bg); border-left: 3px solid var(--c-purple-l); color: #d2a8ff; }
+  .flag-icon { font-size: 13px; flex-shrink: 0; margin-top: 1px; }
+  /* Section divider */
+  .section { margin-bottom: 28px; }
+  .section-label {
+    font-size: 11px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 1px; color: var(--c-text3);
+    margin-bottom: 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-label::after {
+    content: ''; flex: 1; height: 1px; background: var(--c-border);
+  }
+  /* Pathway selector */
+  .pathway-selector {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+    margin: 16px 0;
+  }
+  .pathway-card {
+    border-radius: var(--radius-lg);
+    padding: 14px;
+    border: 1px solid;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .pathway-card.green { background: var(--c-green-bg); border-color: rgba(63,185,80,0.3); }
+  .pathway-card.amber { background: var(--c-amber-bg); border-color: rgba(227,179,65,0.3); }
+  .pathway-card.red { background: var(--c-red-bg); border-color: rgba(248,81,73,0.3); }
+  .pathway-card:hover { transform: translateY(-2px); }
+  .pathway-title { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+  .pathway-card.green .pathway-title { color: #7ee787; }
+  .pathway-card.amber .pathway-title { color: #e3b341; }
+  .pathway-card.red .pathway-title { color: #ffa198; }
+  .pathway-card p { font-size: 12px; color: var(--c-text2); }
+  /* Intraop timeline */
+  .timeline { position: relative; padding-left: 24px; }
+  .timeline::before {
+    content: ''; position: absolute; left: 6px; top: 8px; bottom: 8px;
+    width: 1px; background: var(--c-border2);
+  }
+  .timeline-item { position: relative; margin-bottom: 16px; }
+  .timeline-dot {
+    position: absolute; left: -21px; top: 3px;
+    width: 10px; height: 10px; border-radius: 50%;
+    border: 2px solid var(--c-blue);
+    background: var(--c-bg);
+  }
+  .timeline-label { font-size: 12px; font-weight: 600; color: var(--c-blue-l); margin-bottom: 4px; }
+  /* Data table */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .data-table th {
+    text-align: left; padding: 8px 10px;
+    background: var(--c-bg3);
+    border-bottom: 1px solid var(--c-border2);
+    font-size: 11px; font-weight: 600;
+    color: var(--c-text2); text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .data-table td {
+    padding: 7px 10px;
+    border-bottom: 1px solid var(--c-border);
+    color: var(--c-text2);
+    vertical-align: top;
+  }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:hover td { background: var(--c-bg3); }
+  .data-table td:first-child { color: var(--c-text); font-weight: 500; }
+  /* Badges */
+  .badge {
+    display: inline-block; font-size: 10px; font-weight: 600;
+    padding: 2px 7px; border-radius: 10px;
+    text-transform: uppercase; letter-spacing: 0.3px;
+  }
+  .badge-req { background: var(--c-red-bg); color: #ffa198; border: 1px solid rgba(248,81,73,0.3); }
+  .badge-opt { background: var(--c-bg3); color: var(--c-text3); border: 1px solid var(--c-border); }
+  .badge-key { background: var(--c-amber-bg); color: #e3b341; border: 1px solid rgba(227,179,65,0.3); }
+  .badge-sub { background: var(--c-purple-bg); color: #d2a8ff; border: 1px solid rgba(163,113,247,0.3); }
+  /* Collapsible */
+  .collapsible { margin-bottom: 8px; }
+  .coll-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 14px;
+    background: var(--c-bg3);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .coll-header:hover { border-color: var(--c-border2); }
+  .coll-header.open { border-radius: var(--radius) var(--radius) 0 0; border-color: var(--c-border2); }
+  .coll-title { font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+  .coll-arrow {
+    font-size: 10px; color: var(--c-text3);
+    transition: transform 0.2s;
+  }
+  .coll-header.open .coll-arrow { transform: rotate(90deg); }
+  .coll-body {
+    display: none;
+    background: var(--c-bg2);
+    border: 1px solid var(--c-border2);
+    border-top: none;
+    border-radius: 0 0 var(--radius) var(--radius);
+    padding: 14px;
+  }
+  .coll-body.open { display: block; }
+  /* Monitoring grid */
+  .monitor-col {
+    background: var(--c-bg2);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+  .monitor-header {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--c-border);
+    font-size: 12px; font-weight: 600;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .monitor-items { padding: 8px 0; }
+  .monitor-item {
+    padding: 5px 14px;
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .monitor-item:last-child { border-bottom: none; }
+  .monitor-name { font-size: 12px; color: var(--c-text2); }
+  .monitor-unit { font-size: 11px; color: var(--c-text3); }
+  /* Leak algorithm */
+  .leak-flow { display: flex; flex-direction: column; gap: 12px; }
+  .leak-node {
+    border-radius: var(--radius-lg); padding: 14px;
+    border: 1px solid;
+  }
+  .leak-node-title { font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+  .leak-connectors { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+  .connector-line {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 12px; color: var(--c-text2);
+  }
+  .connector-line::before { content: '↳'; color: var(--c-text3); }
+  /* Tabs within tabs */
+  .sub-tabs { display: flex; gap: 4px; margin-bottom: 16px; border-bottom: 1px solid var(--c-border); }
+  .sub-tab {
+    background: none; border: none;
+    color: var(--c-text2); cursor: pointer;
+    padding: 8px 14px;
+    font-size: 13px;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: all 0.15s;
+  }
+  .sub-tab:hover { color: var(--c-text); }
+  .sub-tab.active { color: var(--c-accent); border-bottom-color: var(--c-accent); }
+  .sub-panel { display: none; }
+  .sub-panel.active { display: block; }
+  /* POD table */
+  .pod-grid { display: grid; grid-template-columns: auto 1fr 1fr 1fr 1fr; gap: 0; }
+  .pod-cell {
+    padding: 8px 10px;
+    border: 1px solid var(--c-border);
+    font-size: 12px;
+  }
+  .pod-cell.header {
+    background: var(--c-bg3); font-weight: 600;
+    color: var(--c-text2); font-size: 11px;
+  }
+  .pod-cell.pod-label {
+    background: var(--c-bg3); font-weight: 600;
+    color: var(--c-accent); font-size: 11px;
+    writing-mode: horizontal-tb;
+    border-radius: 0;
+  }
+  /* Summary threshold box */
+  .threshold-box {
+    background: var(--c-bg2);
+    border: 1px solid var(--c-border2);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    margin-top: 20px;
+  }
+  .threshold-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 12px; }
+  .threshold-item {
+    background: var(--c-bg3);
+    border-radius: var(--radius);
+    padding: 10px 12px;
+  }
+  .threshold-label { font-size: 11px; color: var(--c-text3); margin-bottom: 4px; }
+  .threshold-value { font-size: 13px; font-weight: 600; color: var(--c-accent); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div>
+      <div class="header-title">Esophageal &amp; Gastric Cancer Surgery</div>
+      <div class="header-subtitle">Perioperative Clinical Algorithm — Single Centre</div>
+    </div>
+    <nav class="nav">
+      <button class="nav-btn active" onclick="showTab('preop', this)"><span class="nav-dot"></span>Preoperative</button>
+      <button class="nav-btn" onclick="showTab('intraop', this)"><span class="nav-dot"></span>Intraoperative</button>
+      <button class="nav-btn" onclick="showTab('postop', this)"><span class="nav-dot"></span>Postoperative</button>
+      <button class="nav-btn" onclick="showTab('leak', this)"><span class="nav-dot"></span>Anastomotic Leak</button>
+      <button class="nav-btn" onclick="showTab('dataset', this)"><span class="nav-dot"></span>Dataset</button>
+    </nav>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- ═══════════════════ PREOPERATIVE ═══════════════════ -->
+<div id="tab-preop" class="tab-panel active">
+  <div class="phase-header">
+    <span class="phase-badge">Phase A</span>
+    <div>
+      <div class="phase-title">Preoperative Assessment &amp; Optimisation</div>
+      <div class="phase-desc">Early preoperative period — complete before final operative scheduling</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Steps 1–2: Confirm pathway &amp; baseline profile</div>
+    <div class="grid-2">
+      <div class="step-card">
+        <div class="step-num">Step 1</div>
+        <div class="step-title">Confirm Curative Surgical Pathway</div>
+        <ul class="check-list">
+          <li>Histological diagnosis confirmed</li>
+          <li>Full staging completed (CT, PET-CT, EUS, laparoscopy if indicated)</li>
+          <li>MDT decision documented with date</li>
+          <li>Treatment sequence defined (upfront vs post-neoadjuvant)</li>
+          <li>Intended operation and curative intent recorded</li>
+        </ul>
+        <div class="flag flag-red" style="margin-top:10px;">
+          <span class="flag-icon">⛔</span>
+          <span><strong>Do not schedule</strong> surgery until MDT decision and operative intent are fully documented</span>
+        </div>
+        <div class="flag flag-blue" style="margin-top:6px;">
+          <span class="flag-icon">🎯</span>
+          <span>Centre target: <strong>100% MDT review</strong> before final operative scheduling</span>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">Step 2</div>
+        <div class="step-title">Collect Mandatory Baseline Profile</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:10px;">
+          <div>
+            <div style="font-size:11px;color:var(--c-text3);margin-bottom:4px;">DEMOGRAPHICS</div>
+            <ul class="check-list">
+              <li>Age, sex, height, weight, BMI</li>
+              <li>ECOG / functional status</li>
+              <li>ASA grade</li>
+              <li>Smoking &amp; alcohol history</li>
+              <li>Prior thoracic/abdominal surgery</li>
+            </ul>
+          </div>
+          <div>
+            <div style="font-size:11px;color:var(--c-text3);margin-bottom:4px;">TUMOUR</div>
+            <ul class="check-list">
+              <li>Site, histology, clinical stage</li>
+              <li>Siewert type (GEJ tumours)</li>
+              <li>Neoadjuvant treatment history</li>
+              <li>Planned procedure &amp; approach</li>
+            </ul>
+          </div>
+        </div>
+        <div style="font-size:11px;color:var(--c-text3);margin-bottom:6px;">BASELINE LABS</div>
+        <ul class="check-list">
+          <li>CBC, creatinine/eGFR, electrolytes, albumin</li>
+          <li>Iron studies / B12 / folate if anaemia present or suspected</li>
+          <li>LFTs if indicated; coagulation if relevant</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Steps 3.1–3.5: Structured risk stratification (five domains)</div>
+    <div class="grid-3">
+      <div class="collapsible" style="grid-column: span 1;">
+        <div class="coll-header open" onclick="toggleColl(this)">
+          <span class="coll-title"><span style="color:var(--c-blue-l);">⬡</span> 3.1 General / Anaesthetic Risk</span>
+          <span class="coll-arrow">▶</span>
+        </div>
+        <div class="coll-body open">
+          <ul class="check-list">
+            <li>ASA grade, ECOG status</li>
+            <li>Coronary disease, heart failure, arrhythmia</li>
+            <li>Diabetes, COPD/asthma, CKD</li>
+            <li>Anticoagulants/antiplatelets, steroids</li>
+            <li>Prior thoracic surgery</li>
+            <li><strong>Frailty signal</strong> — use formal tool (CFS, mFI)</li>
+          </ul>
+          <div class="flag flag-amber" style="margin-top:8px;">
+            <span class="flag-icon">⚠</span>
+            <span>ASA III–IV = mandatory consultant anaesthetic review. ECOG ≥2 = formal fitness discussion required</span>
+          </div>
+          <div class="flag flag-red" style="margin-top:4px;">
+            <span class="flag-icon">⛔</span>
+            <span>Unstable cardiac, respiratory, or renal disease = not ready for final scheduling</span>
+          </div>
+          <div class="flag flag-blue" style="margin-top:4px;">
+            <span class="flag-icon">💡</span>
+            <span>Frailty, not chronological age alone, should drive risk stratification in older patients</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="collapsible">
+        <div class="coll-header open" onclick="toggleColl(this)">
+          <span class="coll-title"><span style="color:var(--c-amber-l);">⬡</span> 3.2 Nutritional Risk</span>
+          <span class="coll-arrow">▶</span>
+        </div>
+        <div class="coll-body open">
+          <ul class="check-list">
+            <li>Unintentional weight loss (amount &amp; duration)</li>
+            <li>Current oral intake, dysphagia severity</li>
+            <li>Regurgitation, vomiting, GOO symptoms</li>
+            <li>Albumin, sarcopenia risk</li>
+            <li>Current nutritional support if any</li>
+          </ul>
+          <div class="flag flag-red" style="margin-top:8px;">
+            <span class="flag-icon">⛔</span>
+            <span><strong>Red flags:</strong> oral intake &lt;50% for &gt;7 days; expected nil orally ≥5 days perioperatively; severe malnutrition; major GOO</span>
+          </div>
+          <div class="flag flag-blue" style="margin-top:4px;">
+            <span class="flag-icon">🎯</span>
+            <span>100% dietitian review for every at-risk patient. Formal nutrition plan before final operation date confirmed.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="collapsible">
+        <div class="coll-header open" onclick="toggleColl(this)">
+          <span class="coll-title"><span style="color:var(--c-green-l);">⬡</span> 3.3 Sarcopenia &amp; Frailty</span>
+          <span class="coll-arrow">▶</span>
+        </div>
+        <div class="coll-body open">
+          <ul class="check-list">
+            <li>Formal frailty tool (one unit-wide tool)</li>
+            <li>CT body composition where feasible (gold standard)</li>
+            <li>Handgrip strength / chair-rise test</li>
+            <li>Mobility and daily function</li>
+          </ul>
+          <div class="flag flag-amber" style="margin-top:8px;">
+            <span class="flag-icon">⚠</span>
+            <span><strong>High-risk thresholds:</strong> 6MWT &lt;400 m; anaerobic threshold ≤11.1 mL/kg/min on CPET</span>
+          </div>
+          <div class="flag flag-blue" style="margin-top:4px;">
+            <span class="flag-icon">🎯</span>
+            <span>All high-risk patients enter a <strong>prehabilitation pathway</strong>. CT body composition reviewed when imaging + software available.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="collapsible">
+        <div class="coll-header open" onclick="toggleColl(this)">
+          <span class="coll-title"><span style="color:var(--c-purple-l);">⬡</span> 3.4 Cardiorespiratory Reserve</span>
+          <span class="coll-arrow">▶</span>
+        </div>
+        <div class="coll-body open">
+          <ul class="check-list">
+            <li>Baseline respiratory symptoms &amp; exercise tolerance</li>
+            <li>Oxygen saturation, COPD/asthma history</li>
+            <li>PFTs if indicated (obstructive/restrictive pattern)</li>
+            <li>Echocardiogram if indicated (LV function, valve disease)</li>
+            <li>CPET if high-risk or uncertainty remains</li>
+          </ul>
+          <div class="flag flag-amber" style="margin-top:8px;">
+            <span class="flag-icon">⚠</span>
+            <span><strong>Escalate if:</strong> 6MWT &lt;400 m; AT ≤11.1 mL/kg/min; active respiratory decompensation; uncontrolled heart failure or ischaemia</span>
+          </div>
+          <div class="flag flag-blue" style="margin-top:4px;">
+            <span class="flag-icon">🎯</span>
+            <span>100% of <strong>esophagectomy patients</strong> must have explicit pulmonary risk review</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="collapsible">
+        <div class="coll-header open" onclick="toggleColl(this)">
+          <span class="coll-title"><span style="color:var(--c-red-l);">⬡</span> 3.5 Oncologic Timing &amp; Treatment Fitness</span>
+          <span class="coll-arrow">▶</span>
+        </div>
+        <div class="coll-body open">
+          <ul class="check-list">
+            <li>Date of last chemotherapy / radiotherapy</li>
+            <li>Recovery from treatment toxicity</li>
+            <li>Interval weight loss during neoadjuvant</li>
+            <li>Interval decline in intake or function</li>
+          </ul>
+          <div class="flag flag-green" style="margin-top:8px;">
+            <span class="flag-icon">✓</span>
+            <span><strong>Timing targets:</strong> after neoadjuvant chemotherapy → surgery 3–6 weeks; after chemoradiotherapy / radiotherapy → surgery 6–10 weeks after last radiation</span>
+          </div>
+          <div class="flag flag-red" style="margin-top:4px;">
+            <span class="flag-icon">⛔</span>
+            <span>Do not move directly from restaging to theatre booking without a formal physiological reassessment</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Step 4: Pathway assignment</div>
+    <div class="pathway-selector">
+      <div class="pathway-card green">
+        <div class="pathway-title">✓ Ready for Surgery Now</div>
+        <p>All domains clear. No outstanding red flags. MDT confirmed. Labs within targets. Anaesthetic review signed off.</p>
+      </div>
+      <div class="pathway-card amber">
+        <div class="pathway-title">⟳ Fit After Optimisation</div>
+        <p>One or more modifiable issues present. Proceed to Step 5 optimisation package before final scheduling.</p>
+      </div>
+      <div class="pathway-card red">
+        <div class="pathway-title">✗ Not Currently Fit</div>
+        <p>Major fitness concerns or non-modifiable risk. Re-discuss treatment strategy with MDT. Consider alternatives.</p>
+      </div>
+    </div>
+    <div class="flag flag-amber" style="margin-top:4px;">
+      <span class="flag-icon">⚠</span>
+      <span><strong>Any one of these triggers "optimisation first":</strong> ASA III–IV without consultant review · ECOG ≥2 · current smoking · oral intake &lt;50% · severe dysphagia · Hb below target · 6MWT &lt;400 m · AT ≤11.1 · uncontrolled comorbidity · clear frailty signal</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Step 5: Optimisation package</div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title"><div class="card-icon" style="background:var(--c-amber-bg);color:var(--c-amber-l);">5.1</div> Nutrition Optimisation</div>
+        <ul class="check-list">
+          <li>Oral counselling + oral nutritional supplements → first line if gut usable</li>
+          <li>Enteral support (NG/NJ/PEG/jej) if oral inadequate but gut functional</li>
+          <li>Parenteral nutrition if enteral not feasible or insufficient</li>
+        </ul>
+        <div class="flag flag-red" style="margin-top:8px;">
+          <span class="flag-icon">⛔</span>
+          <span>Start nutritional therapy immediately if: nil orally expected ≥5 days <strong>OR</strong> intake &lt;50% for &gt;7 days</span>
+        </div>
+        <div class="flag flag-blue" style="margin-top:4px;">
+          <span class="flag-icon">🎯</span>
+          <span>Recheck weight weekly during optimisation. Recheck intake at every contact.</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="card-icon" style="background:var(--c-green-bg);color:var(--c-green-l);">5.2</div> Exercise &amp; Respiratory Prehabilitation</div>
+        <ul class="check-list">
+          <li>Walking / aerobic conditioning programme</li>
+          <li>Inspiratory muscle training (IMT)</li>
+          <li>Breathing exercises, cough training</li>
+          <li>Secretion clearance techniques</li>
+          <li>Bronchodilator optimisation if indicated</li>
+        </ul>
+        <div class="flag flag-amber" style="margin-top:8px;">
+          <span class="flag-icon">⚠</span>
+          <span>Prioritise prehabilitation for: 6MWT &lt;400 m; AT ≤11.1; severe malnutrition; ASA III/IV older adults</span>
+        </div>
+        <div class="flag flag-blue" style="margin-top:4px;">
+          <span class="flag-icon">🎯</span>
+          <span>Every high-risk esophagectomy patient receives <strong>structured respiratory prehabilitation</strong>. Completion checked before surgery.</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="card-icon" style="background:var(--c-red-bg);color:var(--c-red-l);">5.3</div> Smoking &amp; Alcohol Cessation</div>
+        <ul class="check-list">
+          <li>Smoking cessation target: <strong>≥4 weeks before surgery</strong></li>
+          <li>Alcohol cessation target: <strong>≥4 weeks before surgery</strong></li>
+          <li>Active pharmacological + behavioural support offered</li>
+          <li>Quit date documented in all active smokers</li>
+        </ul>
+        <div class="flag flag-blue" style="margin-top:8px;">
+          <span class="flag-icon">🎯</span>
+          <span>Smoking status documented in 100% of patients. Current smokers receive active cessation support in 100%.</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title"><div class="card-icon" style="background:var(--c-purple-bg);color:var(--c-purple-l);">5.4</div> Anaemia &amp; Medical Optimisation</div>
+        <ul class="check-list">
+          <li>Work up and treat iron deficiency, B12/folate deficiency</li>
+          <li>Treat symptomatic anaemia — target <strong>Hb ≥120 g/L</strong> both sexes</li>
+          <li>Optimise diabetes control (target HbA1c where feasible)</li>
+          <li>Optimise CKD/dehydration before major surgery</li>
+          <li>Stabilise COPD/asthma, unstable cardiac disease</li>
+        </ul>
+        <div class="flag flag-red" style="margin-top:8px;">
+          <span class="flag-icon">⛔</span>
+          <span>Hb &lt;120 g/L = anaemia work-up and correction plan. Unstable medical disease = defer final scheduling until optimised.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Step 6: Reassessment after neoadjuvant therapy or optimisation</div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Repeat at reassessment</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;">
+          <ul class="check-list">
+            <li>Weight, BMI, intake</li>
+            <li>Dysphagia / obstructive symptoms</li>
+            <li>Hb, creatinine/eGFR, electrolytes</li>
+            <li>Albumin if relevant</li>
+          </ul>
+          <ul class="check-list">
+            <li>ECOG, frailty / functional reserve</li>
+            <li>Respiratory fitness if initially impaired</li>
+            <li>Treatment toxicity resolved?</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Final decision — document explicitly</div>
+        <div class="flag flag-green"><span class="flag-icon">✓</span><span><strong>Proceed</strong> — all targets met, fit for surgery</span></div>
+        <div class="flag flag-amber" style="margin-top:6px;"><span class="flag-icon">⟳</span><span><strong>Optimise further</strong> — one or more issues outstanding</span></div>
+        <div class="flag flag-red" style="margin-top:6px;"><span class="flag-icon">✗</span><span><strong>Re-discuss treatment strategy</strong> — major fitness concern remains</span></div>
+        <div class="flag flag-blue" style="margin-top:8px;"><span class="flag-icon">🎯</span><span>100% formal reassessment after neoadjuvant therapy. 100% formal reassessment after optimisation if surgery was delayed.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">Phase B — Final 72–24 hours before surgery</div>
+    <div class="grid-2">
+      <div class="step-card">
+        <div class="step-num">Steps 7–9</div>
+        <div class="step-title">Finalise Plan, Labs &amp; Fasting</div>
+        <ul class="check-list">
+          <li><strong>Step 7:</strong> Exact operation, approach, reconstruction plan, anastomotic site, postoperative destination, postoperative feeding plan — all documented</li>
+          <li><strong>Step 8:</strong> Final labs — CBC, creatinine/eGFR, electrolytes, coagulation if indicated, G&amp;X per local policy. Hb should meet target or have documented reason to proceed.</li>
+          <li><strong>Step 9:</strong> Clear fluids until <strong>2 h</strong> before anaesthesia; solids withheld <strong>6 h</strong> before. Individualise for severe dysphagia / retained contents / GOO / delayed gastric emptying.</li>
+        </ul>
+        <div class="flag flag-red" style="margin-top:8px;"><span class="flag-icon">⛔</span><span>No patient proceeds with missing core labs. Major renal/electrolyte abnormality requires active sign-off.</span></div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">Steps 10–11</div>
+        <div class="step-title">Optimisation Completion Check &amp; Final Handover</div>
+        <ul class="check-list">
+          <li>Smoking cessation status confirmed</li>
+          <li>Alcohol cessation status confirmed</li>
+          <li>Nutrition plan started and documented</li>
+          <li>Anaemia plan completed or explicitly reviewed</li>
+          <li>Respiratory prehabilitation completed if indicated</li>
+          <li>Consultant anaesthetic review completed (ASA III–IV)</li>
+          <li>Consent updated to reflect final plan and risk discussion</li>
+        </ul>
+        <div style="margin-top:10px; font-size:11px; color:var(--c-text3); font-weight:600; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">Handover to Anaesthesia / ICU / Ward must state:</div>
+        <ul class="check-list">
+          <li>Pulmonary risk level</li>
+          <li>Nutritional risk level</li>
+          <li>Frailty signal</li>
+          <li>Aspiration risk</li>
+          <li>Need for ICU/HDU vs ward</li>
+          <li>Postoperative support plan</li>
+          <li>Any specific concern for anastomotic healing</li>
+        </ul>
+        <div class="flag flag-blue" style="margin-top:8px;"><span class="flag-icon">🎯</span><span>Standardised written handover in <strong>100% of esophagectomies</strong> and all high-risk gastrectomies.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="threshold-box">
+    <div style="font-size:13px;font-weight:600;margin-bottom:4px;">Evidence-based threshold summary</div>
+    <div style="font-size:12px;color:var(--c-text2);">Quick-reference values for preoperative decision-making</div>
+    <div class="threshold-grid">
+      <div class="threshold-item"><div class="threshold-label">Haemoglobin target</div><div class="threshold-value">≥120 g/L both sexes</div></div>
+      <div class="threshold-item"><div class="threshold-label">Start nutrition if intake</div><div class="threshold-value">&lt;50% for &gt;7 days</div></div>
+      <div class="threshold-item"><div class="threshold-label">Start nutrition if nil orally</div><div class="threshold-value">Expected ≥5 days</div></div>
+      <div class="threshold-item"><div class="threshold-label">6MWT high-risk threshold</div><div class="threshold-value">&lt;400 m</div></div>
+      <div class="threshold-item"><div class="threshold-label">AT on CPET high-risk</div><div class="threshold-value">≤11.1 mL/kg/min</div></div>
+      <div class="threshold-item"><div class="threshold-label">Smoking / alcohol cessation</div><div class="threshold-value">≥4 weeks before surgery</div></div>
+      <div class="threshold-item"><div class="threshold-label">Clear fluids (fasting)</div><div class="threshold-value">Until 2 h pre-anaesthesia</div></div>
+      <div class="threshold-item"><div class="threshold-label">Solids (fasting)</div><div class="threshold-value">Stop 6 h pre-anaesthesia</div></div>
+      <div class="threshold-item"><div class="threshold-label">After chemoRT → surgery</div><div class="threshold-value">6–10 weeks</div></div>
+      <div class="threshold-item"><div class="threshold-label">After chemo → surgery</div><div class="threshold-value">3–6 weeks</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ INTRAOPERATIVE ═══════════════════ -->
+<div id="tab-intraop" class="tab-panel">
+  <div class="phase-header">
+    <span class="phase-badge">Phase C</span>
+    <div>
+      <div class="phase-title">Intraoperative Data &amp; Anaesthetic Parameters</div>
+      <div class="phase-desc">Parameters recorded during surgery — surgical and anaesthetic perspectives</div>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:24px;">
+    <div class="section">
+      <div class="section-label">Surgical team — operative record</div>
+      <div class="collapsible">
+        <div class="coll-header open" onclick="toggleColl(this)">
+          <span class="coll-title">Procedure details</span>
+          <span class="coll-arrow">▶</span>
+        </div>
+        <div class="coll-body open">
+          <table class="data-table">
+            <tr><th>Field</th><th>Options</th><th style="text-align:center;">Status</th></tr>
+            <tr><td>Procedure type</td><td>Ivor Lewis / McKeown / Transhiatal / Other</td><td style="text-align:center;"><span class="badge badge-req">Required</span></td></tr>
+            <tr><td>Surgical intent</td><td>Curative / Salvage / Other</td><td style="text-align:center;"><span class="badge badge-req">Required</span></td></tr>
+            <tr><td>Abdominal approach</td><td>Open / Laparoscopic / Robotic / Converted</td><td style="text-align:center;"><span class="badge badge-req">Required</span></td></tr>
+            <tr><td>Thoracic approach</td><td>Open / Thoracoscopic / Robotic / Transhiatal</td><td style="text-align:center;"><span class="badge badge-req">Required</span></td></tr>
+            <tr><td>Conversion to open</td><td>Yes / No — reason</td><td style="text-align:center;"><span class="badge badge-req">Required</span></td></tr>
+            <tr><td>Multivisceral resection</td><td>Yes / No — organ(s) resected</td><td style="text-align:center;"><span class="badge badge-opt">Optional</span></td></tr>
+            <tr><td>Lymphadenectomy</td><td>Two-field / Three-field / Other</td><td style="text-align:center;"><span class="badge badge-req">Required</span></td></tr>
+            <tr><td>Duration of surgery (min)</td><td>Numeric</td><td style="text-align:center;"><span class="badge badge-req">Required</span></td></tr>
+            <tr><td>Duration single-lung ventilation (min)</td><td>Numeric</td><td style="text-align:center;"><span class="badge badge-key">Key</span></td></tr>
+            <tr><td>Estimated blood loss (mL)</td><td>Numeric</td><td style="text-align:center;"><span class="badge badge-req">Required</span></td></tr>
+            <tr><td>Intraop red cell transfusion (units)</td><td>Number of units</td><td style="text-align:center;"><span class="badge badge-req">Required</span></td></tr>
+            <tr><td>Intraop complications</td><td>Yes / No + details</td><td style="text-align:center;"><span class="badge badge-req">Required</span></td></tr>
+            <tr><td>Training operation</td><td>Trainee performed: abdominal / thoracic / anastomosis</td><td style="text-align:center;"><span class="badge badge-opt">Optional</span></td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="collapsible" style="margin-top:8px;">
+        <div class="coll-header open" onclick="toggleColl(this)">
+          <span class="coll-title">Conduit &amp; anastomosis</span>
+          <span class="coll-arrow">▶</span>
+        </div>
+        <div class="coll-body open">
+          <table class="data-table">
+            <tr><th>Field</th><th>Options</th><th style="text-align:center;">Status</th></tr>
+            <tr><td>Conduit type</td><td>Gastric tube / Whole stomach / Colon / Jejunum</td><td style="text-align:center;"><span class="badge badge-req">Required</span></td></tr>
+            <tr><td>Conduit width</td><td>Narrow &lt;5 cm / Standard / Wide &gt;5 cm</td><td style="text-align:center;"><span class="badge badge-key">Key</span></td></tr>
+            <tr><td>Pyloric procedure</td><td>None / Pyloromyotomy / Pyloroplasty / Botox / Dilatation</td><td style="text-align:center;"><span class="badge badge-req">Required</span></td></tr>
+            <tr><td>Anastomotic site</td><td>Neck / Chest above azygous / At azygous / Below azygous</td><td style="text-align:center;"><span class="badge badge-req">Required</span></td></tr>
+            <tr><td>Anastomotic technique</td><td>Hand-sewn / Circular stapled / Linear stapled (Orringer)</td><td style="text-align:center;"><span class="badge badge-req">Required</span></td></tr>
+            <tr><td>Anastomotic configuration</td><td>End-to-end / Side-to-end / Side-to-side</td><td style="text-align:center;"><span class="badge badge-req">Required</span></td></tr>
+            <tr><td>Anastomotic reinforcement</td><td>None / Omentoplasty / Pleural flap / Other</td><td style="text-align:center;"><span class="badge badge-key">Key</span></td></tr>
+            <tr><td>Anastomosis tested intraop</td><td>Not done / Air leak test / Endoscopy / Methylene blue / ICG</td><td style="text-align:center;"><span class="badge badge-key">Key</span></td></tr>
+            <tr><td>ICG perfusion assessment</td><td>Yes / No — appeared adequate Y/N</td><td style="text-align:center;"><span class="badge badge-sub">Substudy</span></td></tr>
+            <tr><td>Concern about conduit perfusion</td><td>Surgeon-reported concern Y/N</td><td style="text-align:center;"><span class="badge badge-sub">Substudy</span></td></tr>
+            <tr><td>Concern about anastomotic tension</td><td>Yes / No</td><td style="text-align:center;"><span class="badge badge-sub">Substudy</span></td></tr>
+            <tr><td>Nutritional access</td><td>None / Feeding jejunostomy / Nasojejunal tube</td><td style="text-align:center;"><span class="badge badge-req">Required</span></td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Anaesthetic team — intraoperative record</div>
+      <div class="collapsible">
+        <div class="coll-header open" onclick="toggleColl(this)">
+          <span class="coll-title">Ventilation &amp; airway management</span>
+          <span class="coll-arrow">▶</span>
+        </div>
+        <div class="coll-body open">
+          <table class="data-table">
+            <tr><th>Field</th><th>Options / Unit</th><th style="text-align:center;">Status</th></tr>
+            <tr><td>Single lung ventilation</td><td>Yes / No</td><td style="text-align:center;"><span class="badge badge-req">Required</span></td></tr>
+            <tr><td>SLV method</td><td>Double lumen tube / Bronchial blocker</td><td style="text-align:center;"><span class="badge badge-req">Required</span></td></tr>
+            <tr><td>Duration SLV (min)</td><td>Numeric</td><td style="text-align:center;"><span class="badge badge-key">Key</span></td></tr>
+            <tr><td>Extubated same day</td><td>Yes / No</td><td style="text-align:center;"><span class="badge badge-req">Required</span></td></tr>
+            <tr><td>Duration mechanical ventilation (h)</td><td>Numeric</td><td style="text-align:center;"><span class="badge badge-req">Required</span></td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="collapsible" style="margin-top:8px;">
+        <div class="coll-header open" onclick="toggleColl(this)">
+          <span class="coll-title">Haemodynamics &amp; fluids</span>
+          <span class="coll-arrow">▶</span>
+        </div>
+        <div class="coll-body open">
+          <table class="data-table">
+            <tr><th>Field</th><th>Options / Unit</th><th style="text-align:center;">Status</th></tr>
+            <tr><td>Vasopressor support required</td><td>Yes — bolus / Yes — infusion / No</td><td style="text-align:center;"><span class="badge badge-req">Required</span></td></tr>
+            <tr><td>Duration vasopressor support (h)</td><td>Numeric</td><td style="text-align:center;"><span class="badge badge-key">Key</span></td></tr>
+            <tr><td>Lowest intraop BP (MAP)</td><td>mmHg</td><td style="text-align:center;"><span class="badge badge-opt">Optional</span></td></tr>
+            <tr><td>Total IV crystalloid (mL)</td><td>Numeric</td><td style="text-align:center;"><span class="badge badge-req">Required</span></td></tr>
+            <tr><td>Total IV colloid (mL)</td><td>Numeric</td><td style="text-align:center;"><span class="badge badge-req">Required</span></td></tr>
+            <tr><td>Intraop blood transfusion</td><td>Yes / No — number of units</td><td style="text-align:center;"><span class="badge badge-req">Required</span></td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="collapsible" style="margin-top:8px;">
+        <div class="coll-header open" onclick="toggleColl(this)">
+          <span class="coll-title">Analgesia &amp; early monitoring</span>
+          <span class="coll-arrow">▶</span>
+        </div>
+        <div class="coll-body open">
+          <table class="data-table">
+            <tr><th>Field</th><th>Options / Unit</th><th style="text-align:center;">Status</th></tr>
+            <tr><td>Regional analgesia used</td><td>Yes / No</td><td style="text-align:center;"><span class="badge badge-req">Required</span></td></tr>
+            <tr><td>Type of regional analgesia</td><td>Epidural / Paravertebral / Intrathecal morphine / PCA / Other</td><td style="text-align:center;"><span class="badge badge-req">Required</span></td></tr>
+            <tr><td>Lactate — immediately postop</td><td>mmol/L</td><td style="text-align:center;"><span class="badge badge-key">Key</span></td></tr>
+            <tr><td>Lactate at 6 h</td><td>mmol/L</td><td style="text-align:center;"><span class="badge badge-key">Key</span></td></tr>
+            <tr><td>Lactate at 24 h</td><td>mmol/L</td><td style="text-align:center;"><span class="badge badge-key">Key</span></td></tr>
+            <tr><td>Primary ICU admission</td><td>Yes / No</td><td style="text-align:center;"><span class="badge badge-req">Required</span></td></tr>
+            <tr><td>ICU length of stay — initial (days)</td><td>Numeric</td><td style="text-align:center;"><span class="badge badge-req">Required</span></td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="flag flag-blue" style="margin-top:12px;">
+        <span class="flag-icon">💡</span>
+        <span>Serial lactate measurements (immediate / 6h / 24h) are a key perfusion surrogate for conduit ischaemia assessment and anastomotic healing risk. Elevated lactate post-esophagectomy should prompt conduit concern assessment.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ POSTOPERATIVE ═══════════════════ -->
+<div id="tab-postop" class="tab-panel">
+  <div class="phase-header">
+    <span class="phase-badge">Phase D</span>
+    <div>
+      <div class="phase-title">Postoperative Monitoring &amp; Care</div>
+      <div class="phase-desc">Phase-based recovery algorithm with daily targets and escalation triggers</div>
+    </div>
+  </div>
+
+  <div class="sub-tabs">
+    <button class="sub-tab active" onclick="showSub('postop', 'overview', this)">Phase overview</button>
+    <button class="sub-tab" onclick="showSub('postop', 'daily', this)">Daily monitoring</button>
+    <button class="sub-tab" onclick="showSub('postop', 'complications', this)">Complications record</button>
+    <button class="sub-tab" onclick="showSub('postop', 'escalation', this)">Escalation pathway</button>
+  </div>
+
+  <div id="postop-sub-overview" class="sub-panel active">
+    <div class="grid-2">
+      <div class="step-card">
+        <div class="step-num">POD 0 — Immediate postoperative</div>
+        <div class="step-title">Stabilise circulation, oxygenation, analgesia, drains</div>
+        <ul class="check-list">
+          <li>ICU / HDU / PACU monitoring, telemetry</li>
+          <li>Multimodal analgesia started (epidural / paravertebral active)</li>
+          <li>Drain check — output, appearance, gas noted</li>
+          <li>Lactate review — immediate and 6 h</li>
+          <li>Urine output review (target &gt;0.5 mL/kg/h)</li>
+          <li>Head-of-bed elevation ≥30°</li>
+          <li>Respiratory exercises started</li>
+          <li>Sit out of bed ~2 h if feasible — evening of surgery</li>
+        </ul>
+        <div class="flag flag-amber" style="margin-top:8px;"><span class="flag-icon">⚠</span><span>MAP target <strong>≥70 mmHg</strong>. Arterial-line monitoring through POD 2 when needed. Reassess immediately if hypotension, low urine output, or clinical deterioration.</span></div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">POD 1–4 — Early recovery</div>
+        <div class="step-title">Prevent pulmonary &amp; cardiac complications; establish recovery momentum</div>
+        <ul class="check-list">
+          <li>Standard CBC + metabolic panel on POD 1 — aggressive electrolyte replacement</li>
+          <li>Continuous telemetry maintained</li>
+          <li>Respiratory therapy scheduled — incentive spirometry hourly while in bed</li>
+          <li>Pulmonary rehabilitation twice daily</li>
+          <li><strong>Ambulation target: 4× per day</strong> from POD 1</li>
+          <li>Head-of-bed ≥30° maintained</li>
+          <li>Begin / advance feeding pathway (enteral preferred)</li>
+          <li>Daily drain assessment — output, colour, amylase if suspected leak</li>
+          <li>Consider NG tube removal when feasible</li>
+        </ul>
+      </div>
+      <div class="step-card">
+        <div class="step-num">POD 5–7 — Transition phase</div>
+        <div class="step-title">Transition from acute care to functional recovery</div>
+        <ul class="check-list">
+          <li>Convert toward enteral / oral-compatible analgesia (via jejunostomy if present)</li>
+          <li>Continue opioid-sparing principles</li>
+          <li>Mobilisation target: <strong>6× per day</strong></li>
+          <li>Spend up to <strong>50% of day out of bed</strong></li>
+          <li>Nutritional route clearly defined and documented</li>
+          <li>Review drains and tubes — remove when safe (avoid prolonged chest drain)</li>
+          <li>Contrast swallow considered if oral pathway planned (if not clear on earlier POD)</li>
+          <li>No unresolved haemodynamic instability</li>
+        </ul>
+      </div>
+      <div class="step-card">
+        <div class="step-num">POD ≥8 — Discharge readiness</div>
+        <div class="step-title">Confirm functional recovery, not calendar target</div>
+        <ul class="check-list">
+          <li>Drain plan finalised and documented</li>
+          <li>Feeding plan confirmed (oral / enteral at home)</li>
+          <li>Patient education completed (jejunostomy care, feeding regimen)</li>
+          <li>Home support / facility arranged</li>
+          <li>Sit out of bed <strong>up to 80% of day</strong> before discharge</li>
+          <li>Stable on ward-level care only</li>
+          <li>Clear follow-up and escalation instructions given</li>
+          <li>No untreated septic or respiratory deterioration</li>
+        </ul>
+        <div class="flag flag-blue" style="margin-top:8px;"><span class="flag-icon">💡</span><span>Discharge readiness = mobility + respiratory stability + feeding tolerance + drain plan + clear follow-up. Not a fixed postoperative day.</span></div>
+      </div>
+    </div>
+    <div class="threshold-box" style="margin-top:16px;">
+      <div style="font-size:13px;font-weight:600;margin-bottom:8px;">Suggested one-centre postoperative targets</div>
+      <div class="threshold-grid">
+        <div class="threshold-item"><div class="threshold-label">MAP target (early phase)</div><div class="threshold-value">≥70 mmHg</div></div>
+        <div class="threshold-item"><div class="threshold-label">Ambulation POD 1–3</div><div class="threshold-value">4× per day</div></div>
+        <div class="threshold-item"><div class="threshold-label">Ambulation from POD 4</div><div class="threshold-value">6× per day</div></div>
+        <div class="threshold-item"><div class="threshold-label">Head-of-bed while in bed</div><div class="threshold-value">≥30°</div></div>
+        <div class="threshold-item"><div class="threshold-label">Incentive spirometry</div><div class="threshold-value">Hourly while in bed</div></div>
+        <div class="threshold-item"><div class="threshold-label">Pulmonary rehab / physio</div><div class="threshold-value">Twice daily (early phase)</div></div>
+        <div class="threshold-item"><div class="threshold-label">Nutrition preference</div><div class="threshold-value">Enteral over parenteral</div></div>
+        <div class="threshold-item"><div class="threshold-label">Out of bed target pre-discharge</div><div class="threshold-value">≤80% of day</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="postop-sub-daily" class="sub-panel">
+    <div class="section-label">Daily monitoring — surgeon / ward team perspective</div>
+    <div class="grid-3">
+      <div class="monitor-col">
+        <div class="monitor-header" style="color:var(--c-blue-l);">Haemodynamic &amp; respiratory</div>
+        <div class="monitor-items">
+          <div class="monitor-item"><span class="monitor-name">Maximum temperature</span><span class="monitor-unit">°C daily</span></div>
+          <div class="monitor-item"><span class="monitor-name">Maximum heart rate</span><span class="monitor-unit">bpm daily</span></div>
+          <div class="monitor-item"><span class="monitor-name">Lowest MAP</span><span class="monitor-unit">mmHg daily</span></div>
+          <div class="monitor-item"><span class="monitor-name">Oxygen requirement</span><span class="monitor-unit">None/Cannula/Mask/HFNC/Vent</span></div>
+          <div class="monitor-item"><span class="monitor-name">Vasopressor needed today</span><span class="monitor-unit">Yes / No</span></div>
+          <div class="monitor-item"><span class="monitor-name">Reintubation today</span><span class="monitor-unit">Yes / No</span></div>
+          <div class="monitor-item"><span class="monitor-name">New arrhythmia today</span><span class="monitor-unit">Yes / No + type</span></div>
+          <div class="monitor-item"><span class="monitor-name">Delirium today</span><span class="monitor-unit">Yes / No</span></div>
+          <div class="monitor-item"><span class="monitor-name">Sepsis today</span><span class="monitor-unit">Yes / No</span></div>
+        </div>
+      </div>
+      <div class="monitor-col">
+        <div class="monitor-header" style="color:var(--c-amber-l);">Drain surveillance</div>
+        <div class="monitor-items">
+          <div class="monitor-item"><span class="monitor-name">Chest drain present</span><span class="monitor-unit">Yes / No</span></div>
+          <div class="monitor-item"><span class="monitor-name">Chest drain output</span><span class="monitor-unit">mL/24h</span></div>
+          <div class="monitor-item"><span class="monitor-name">Chest drain appearance</span><span class="monitor-unit">Serous/Sanguineous/Bilious/Salivary/Purulent/Chylous</span></div>
+          <div class="monitor-item"><span class="monitor-name">Air leak present</span><span class="monitor-unit">Yes / No</span></div>
+          <div class="monitor-item"><span class="monitor-name">Abdominal drain present</span><span class="monitor-unit">Yes / No</span></div>
+          <div class="monitor-item"><span class="monitor-name">Abdominal drain output</span><span class="monitor-unit">mL/24h</span></div>
+          <div class="monitor-item"><span class="monitor-name">Bilious drain output</span><span class="monitor-unit">Yes / No</span></div>
+          <div class="monitor-item"><span class="monitor-name">Saliva-like drain output</span><span class="monitor-unit">Yes / No</span></div>
+          <div class="monitor-item"><span class="monitor-name">Purulent drain output</span><span class="monitor-unit">Yes / No</span></div>
+          <div class="monitor-item"><span class="monitor-name">Gas / bubbles in drain</span><span class="monitor-unit">Yes / No</span></div>
+        </div>
+      </div>
+      <div class="monitor-col">
+        <div class="monitor-header" style="color:var(--c-red-l);">Laboratory panel</div>
+        <div class="monitor-items">
+          <div class="monitor-item"><span class="monitor-name">Haemoglobin</span><span class="monitor-unit">g/L</span></div>
+          <div class="monitor-item"><span class="monitor-name">White cell count</span><span class="monitor-unit">×10⁹/L</span></div>
+          <div class="monitor-item"><span class="monitor-name">Neutrophil count</span><span class="monitor-unit">×10⁹/L</span></div>
+          <div class="monitor-item"><span class="monitor-name">Platelet count</span><span class="monitor-unit">×10⁹/L</span></div>
+          <div class="monitor-item"><span class="monitor-name">Creatinine</span><span class="monitor-unit">µmol/L</span></div>
+          <div class="monitor-item"><span class="monitor-name">Urea</span><span class="monitor-unit">mmol/L</span></div>
+          <div class="monitor-item"><span class="monitor-name">Albumin</span><span class="monitor-unit">g/L</span></div>
+          <div class="monitor-item"><span class="monitor-name">CRP</span><span class="monitor-unit">mg/L daily</span></div>
+          <div class="monitor-item"><span class="monitor-name">Procalcitonin</span><span class="monitor-unit">optional</span></div>
+          <div class="monitor-item"><span class="monitor-name">Lactate</span><span class="monitor-unit">mmol/L</span></div>
+          <div class="monitor-item"><span class="monitor-name">Serum amylase</span><span class="monitor-unit">U/L optional baseline</span></div>
+          <div class="monitor-item"><span class="monitor-name" style="color:var(--c-red-l);font-weight:500;">Drain amylase</span><span class="monitor-unit">Very useful — leak marker</span></div>
+          <div class="monitor-item"><span class="monitor-name">Source of drain amylase</span><span class="monitor-unit">Chest / Abdominal / Cervical</span></div>
+          <div class="monitor-item"><span class="monitor-name" style="color:var(--c-amber-l);font-weight:500;">Bilirubin (total/direct)</span><span class="monitor-unit">µmol/L</span></div>
+          <div class="monitor-item"><span class="monitor-name">ALT / AST / ALP / GGT</span><span class="monitor-unit">U/L</span></div>
+          <div class="monitor-item"><span class="monitor-name">Glucose</span><span class="monitor-unit">mmol/L</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="flag flag-red" style="margin-top:16px;">
+      <span class="flag-icon">🔴</span>
+      <span><strong>Clinical red flags (record daily):</strong> Leak suspected today — Yes/No. Conduit ischaemia/necrosis suspected today — Yes/No. Reason for suspicion (free text). Any combination of persistent tachycardia, fever, rising CRP, bilious/salivary drain output, gas in drain, elevated drain amylase = immediate leak/sepsis workup — do not observe passively.</span>
+    </div>
+  </div>
+
+  <div id="postop-sub-complications" class="sub-panel">
+    <div class="section-label">Complication recording — ECCG-based classification</div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Overall burden</div>
+        <table class="data-table">
+          <tr><td>Any postoperative complication</td><td>Yes / No</td></tr>
+          <tr><td>Number of distinct complications</td><td>Total count</td></tr>
+          <tr><td>Highest Clavien–Dindo grade</td><td>I / II / IIIa / IIIb / IVa / IVb / V</td></tr>
+          <tr><td>Major complication (≥IIIa)</td><td>Yes / No</td></tr>
+          <tr><td>Unexpected return to OR</td><td>Yes / No</td></tr>
+          <tr><td>Upgrade in level of care</td><td>Yes / No — date</td></tr>
+          <tr><td>ICU readmission</td><td>Yes / No</td></tr>
+          <tr><td>Postoperative blood transfusion</td><td>Yes / No — units</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <div class="card-title">System-specific complications</div>
+        <div class="collapsible">
+          <div class="coll-header" onclick="toggleColl(this)"><span class="coll-title" style="color:var(--c-blue-l);">Pulmonary</span><span class="coll-arrow">▶</span></div>
+          <div class="coll-body">
+            <ul class="check-list"><li>Pneumonia</li><li>Pleural effusion requiring additional drainage</li><li>Pneumothorax requiring treatment</li><li>Atelectasis / mucus plugging requiring bronchoscopy</li><li>Respiratory failure requiring reintubation</li><li>ARDS</li><li>Acute aspiration</li><li>Air leak &gt;10 days</li></ul>
+          </div>
+        </div>
+        <div class="collapsible">
+          <div class="coll-header" onclick="toggleColl(this)"><span class="coll-title" style="color:var(--c-red-l);">Cardiac</span><span class="coll-arrow">▶</span></div>
+          <div class="coll-body">
+            <ul class="check-list"><li>Cardiac arrest requiring CPR</li><li>Myocardial infarction</li><li>Atrial dysrhythmia requiring treatment</li><li>Ventricular dysrhythmia requiring treatment</li><li>Congestive heart failure requiring treatment</li><li>Pericarditis requiring treatment</li></ul>
+          </div>
+        </div>
+        <div class="collapsible">
+          <div class="coll-header" onclick="toggleColl(this)"><span class="coll-title" style="color:var(--c-amber-l);">Gastrointestinal</span><span class="coll-arrow">▶</span></div>
+          <div class="coll-body">
+            <ul class="check-list"><li><strong>Anastomotic leak / esophagoenteric leak</strong> — link to detailed leak form</li><li><strong>Conduit necrosis / conduit failure</strong> — link to detailed conduit form</li><li>Ileus delaying enteral feeding</li><li>Small bowel obstruction</li><li>Feeding jejunostomy complication</li><li>Pyloric complication</li><li>C. difficile infection</li><li>GI bleeding requiring intervention/transfusion</li><li>Delayed conduit emptying (&gt;7 days NG / intervention)</li><li>Pancreatitis</li></ul>
+          </div>
+        </div>
+        <div class="collapsible">
+          <div class="coll-header" onclick="toggleColl(this)"><span class="coll-title" style="color:var(--c-purple-l);">Other systems</span><span class="coll-arrow">▶</span></div>
+          <div class="coll-body">
+            <ul class="check-list"><li>Acute renal insufficiency (doubling of creatinine)</li><li>Acute renal failure requiring dialysis</li><li>DVT / pulmonary embolism</li><li>Stroke / CVA</li><li>Recurrent laryngeal nerve palsy — ECCG type I/II/III, laterality</li><li>Acute delirium</li><li>Wound infection</li><li>Intrathoracic / intra-abdominal abscess</li><li>Generalised sepsis</li><li>Chyle leak — ECCG type I/II/III, severity A/B</li><li>Acute diaphragmatic hernia</li><li>Multiple organ dysfunction syndrome</li></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="postop-sub-escalation" class="sub-panel">
+    <div class="section-label">Escalation pathway — failure recognition track</div>
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-title" style="color:var(--c-red-l);">⚡ Escalation triggers — any combination moves patient out of routine pathway immediately</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:4px;">
+        <div class="flag flag-red"><span class="flag-icon">●</span><span>Persistent tachycardia &gt;100 bpm unexplained</span></div>
+        <div class="flag flag-red"><span class="flag-icon">●</span><span>Fever &gt;38.5°C persisting &gt;48 h</span></div>
+        <div class="flag flag-red"><span class="flag-icon">●</span><span>Rising CRP or leukocytosis (>48h post-op)</span></div>
+        <div class="flag flag-red"><span class="flag-icon">●</span><span>Respiratory deterioration / new oxygen need</span></div>
+        <div class="flag flag-red"><span class="flag-icon">●</span><span>Hypotension / MAP &lt;70 refractory</span></div>
+        <div class="flag flag-red"><span class="flag-icon">●</span><span>Oliguria unexplained</span></div>
+        <div class="flag flag-red"><span class="flag-icon">●</span><span>New atrial fibrillation</span></div>
+        <div class="flag flag-red"><span class="flag-icon">●</span><span>Bilious or salivary drain output</span></div>
+        <div class="flag flag-red"><span class="flag-icon">●</span><span>Gas / bubbles in drain</span></div>
+        <div class="flag flag-red"><span class="flag-icon">●</span><span>Elevated drain amylase</span></div>
+        <div class="flag flag-red"><span class="flag-icon">●</span><span>Elevated serum lactate &gt;2 mmol/L unexplained</span></div>
+        <div class="flag flag-red"><span class="flag-icon">●</span><span>Cervical wound leakage</span></div>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="step-card">
+        <div class="step-title">When escalation trigger identified</div>
+        <div class="timeline">
+          <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-label">Step 1</div><div style="font-size:12px;color:var(--c-text2);">Clinical review by responsible surgeon — document assessment</div></div>
+          <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-label">Step 2</div><div style="font-size:12px;color:var(--c-text2);">Emergency labs: CBC, CRP, procalcitonin, lactate, drain amylase, bilirubin</div></div>
+          <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-label">Step 3</div><div style="font-size:12px;color:var(--c-text2);">Drain review — output volume, colour, amylase, gas — document explicitly</div></div>
+          <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-label">Step 4</div><div style="font-size:12px;color:var(--c-text2);">CT with IV ± oral contrast and/or endoscopy when indicated — do not delay</div></div>
+          <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-label">Step 5</div><div style="font-size:12px;color:var(--c-text2);">ICU upgrade if needed — do not wait for clinical deterioration to become critical</div></div>
+          <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-label">Step 6</div><div style="font-size:12px;color:var(--c-text2);">Early source-control planning — do not adopt serial passive observation</div></div>
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-title">Reintervention types</div>
+        <table class="data-table">
+          <tr><th>Modality</th><th>Procedure examples</th></tr>
+          <tr><td>Radiological</td><td>Image-guided drainage, additional chest drain, drain study</td></tr>
+          <tr><td>Endoscopic</td><td>Covered stent, endoscopic clip, endoscopic vacuum therapy (EVT/EndoVAC), repeat endoscopy</td></tr>
+          <tr><td>Surgical</td><td>Re-thoracoscopy / re-thoracotomy, re-laparoscopy / re-laparotomy, anastomotic repair, washout only, conduit resection, oesophageal diversion / cervical oesophagostomy</td></tr>
+          <tr><td>Bedside</td><td>Opening and packing cervical wound</td></tr>
+        </table>
+        <div style="margin-top:10px;font-size:11px;color:var(--c-text3);font-weight:600;text-transform:uppercase;">For each reintervention record:</div>
+        <ul class="check-list" style="margin-top:6px;">
+          <li>Sequential episode number</li>
+          <li>Date and POD</li>
+          <li>Indication</li>
+          <li>Technical success — Yes/No</li>
+          <li>Clinical success — Yes/No</li>
+          <li>Complication of reintervention</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ ANASTOMOTIC LEAK ═══════════════════ -->
+<div id="tab-leak" class="tab-panel">
+  <div class="phase-header">
+    <span class="phase-badge" style="background:var(--c-purple-bg);color:var(--c-purple-l);border-color:rgba(163,113,247,0.3);">Sub-Study</span>
+    <div>
+      <div class="phase-title">Anastomotic Leak &amp; Conduit Necrosis — Detailed Instrument</div>
+      <div class="phase-desc">Comprehensive data capture for anastomotic failure sub-study with treatment modality analysis</div>
+    </div>
+  </div>
+
+  <div class="sub-tabs">
+    <button class="sub-tab active" onclick="showSub('leak', 'eccg', this)">ECCG classification</button>
+    <button class="sub-tab" onclick="showSub('leak', 'detection', this)">Detection &amp; triggers</button>
+    <button class="sub-tab" onclick="showSub('leak', 'imaging', this)">Investigation</button>
+    <button class="sub-tab" onclick="showSub('leak', 'treatment', this)">Treatment modalities</button>
+    <button class="sub-tab" onclick="showSub('leak', 'outcome', this)">Leak outcomes</button>
+  </div>
+
+  <div id="leak-sub-eccg" class="sub-panel active">
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title" style="color:var(--c-purple-l);">ECCG Anastomotic Leak Classification</div>
+        <div style="font-size:11px;color:var(--c-text3);margin-bottom:8px;">Full-thickness GI defect involving oesophagus, anastomosis, staple line, or conduit — irrespective of presentation or method of identification</div>
+        <div class="flag flag-blue" style="margin-bottom:8px;"><span class="flag-icon">I</span><span><strong>Type I:</strong> Local defect — no change in therapy; treated medically or with dietary modification only</span></div>
+        <div class="flag flag-amber" style="margin-bottom:8px;"><span class="flag-icon">II</span><span><strong>Type II:</strong> Localised defect — interventional but not surgical therapy (IR drain, stent, bedside opening and packing of incision)</span></div>
+        <div class="flag flag-red"><span class="flag-icon">III</span><span><strong>Type III:</strong> Localised defect — requires surgical therapy</span></div>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color:var(--c-red-l);">ECCG Conduit Necrosis Classification</div>
+        <div class="flag flag-blue" style="margin-bottom:8px;"><span class="flag-icon">I</span><span><strong>Type I:</strong> Focal necrosis identified endoscopically — additional monitoring or non-surgical therapy</span></div>
+        <div class="flag flag-amber" style="margin-bottom:8px;"><span class="flag-icon">II</span><span><strong>Type II:</strong> Focal necrosis identified endoscopically, not associated with free leak — surgical therapy, no oesophageal diversion</span></div>
+        <div class="flag flag-red"><span class="flag-icon">III</span><span><strong>Type III:</strong> Extensive conduit necrosis — conduit resection with diversion (cervical oesophagostomy)</span></div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:16px;">
+      <div class="card-title">Episode identification fields</div>
+      <table class="data-table">
+        <tr><th>Field</th><th>Options</th><th style="text-align:center;">Status</th></tr>
+        <tr><td>Leak / necrosis episode number</td><td>Sequential (1, 2, 3…)</td><td style="text-align:center;"><span class="badge badge-req">Required</span></td></tr>
+        <tr><td>Event type</td><td>Suspected leak / Confirmed leak / Suspected conduit necrosis / Confirmed conduit necrosis / Combined</td><td style="text-align:center;"><span class="badge badge-req">Required</span></td></tr>
+        <tr><td>Date first suspected</td><td>Date</td><td style="text-align:center;"><span class="badge badge-req">Required</span></td></tr>
+        <tr><td>POD first suspected</td><td>Numeric</td><td style="text-align:center;"><span class="badge badge-req">Required</span></td></tr>
+        <tr><td>Date confirmed</td><td>Date</td><td style="text-align:center;"><span class="badge badge-req">Required</span></td></tr>
+        <tr><td>POD confirmed</td><td>Numeric</td><td style="text-align:center;"><span class="badge badge-req">Required</span></td></tr>
+        <tr><td>ECCG leak type</td><td>Type I / II / III</td><td style="text-align:center;"><span class="badge badge-req">Required</span></td></tr>
+        <tr><td>ECCG conduit necrosis grade</td><td>Type I / II / III</td><td style="text-align:center;"><span class="badge badge-req">Required</span></td></tr>
+        <tr><td>Leak site</td><td>Cervical anastomosis / Intrathoracic anastomosis / Staple line / Conduit tip / Conduit body / Unknown</td><td style="text-align:center;"><span class="badge badge-key">Key</span></td></tr>
+        <tr><td>Contained or free leak</td><td>Contained / Free / Unknown</td><td style="text-align:center;"><span class="badge badge-key">Key</span></td></tr>
+        <tr><td>Associated with conduit necrosis</td><td>Yes / No</td><td style="text-align:center;"><span class="badge badge-sub">Substudy</span></td></tr>
+        <tr><td>Associated with empyema</td><td>Yes / No</td><td style="text-align:center;"><span class="badge badge-sub">Substudy</span></td></tr>
+        <tr><td>Associated with sepsis</td><td>Yes / No</td><td style="text-align:center;"><span class="badge badge-sub">Substudy</span></td></tr>
+        <tr><td>Airway fistula / tracheobronchial communication</td><td>Yes / No</td><td style="text-align:center;"><span class="badge badge-sub">Substudy</span></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div id="leak-sub-detection" class="sub-panel">
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Clinical triggers at time of suspicion</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;">
+          <div class="flag flag-red"><span class="flag-icon">●</span><span>Tachycardia</span></div>
+          <div class="flag flag-red"><span class="flag-icon">●</span><span>Fever</span></div>
+          <div class="flag flag-amber"><span class="flag-icon">●</span><span>Rising CRP</span></div>
+          <div class="flag flag-amber"><span class="flag-icon">●</span><span>Leukocytosis</span></div>
+          <div class="flag flag-red"><span class="flag-icon">●</span><span>Elevated lactate</span></div>
+          <div class="flag flag-red"><span class="flag-icon">●</span><span>New atrial fibrillation</span></div>
+          <div class="flag flag-red"><span class="flag-icon">●</span><span>Hypotension</span></div>
+          <div class="flag flag-red"><span class="flag-icon">●</span><span>Respiratory deterioration</span></div>
+          <div class="flag flag-red"><span class="flag-icon">●</span><span>Sepsis / septic shock</span></div>
+          <div class="flag flag-amber"><span class="flag-icon">●</span><span>Bilious drain output</span></div>
+          <div class="flag flag-amber"><span class="flag-icon">●</span><span>Salivary / enteric drain</span></div>
+          <div class="flag flag-amber"><span class="flag-icon">●</span><span>Purulent drain output</span></div>
+          <div class="flag flag-amber"><span class="flag-icon">●</span><span>Gas seen in drain</span></div>
+          <div class="flag flag-amber"><span class="flag-icon">●</span><span>High drain amylase</span></div>
+          <div class="flag flag-amber"><span class="flag-icon">●</span><span>Cervical wound leakage</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Labs at time of suspicion — record all</div>
+        <table class="data-table">
+          <tr><td>Haemoglobin</td><td>g/L</td></tr>
+          <tr><td>White cell count</td><td>×10⁹/L</td></tr>
+          <tr><td>Neutrophil count</td><td>×10⁹/L</td></tr>
+          <tr><td>CRP</td><td>mg/L</td></tr>
+          <tr><td>Procalcitonin</td><td>µg/L</td></tr>
+          <tr><td>Lactate</td><td>mmol/L</td></tr>
+          <tr><td>Albumin</td><td>g/L</td></tr>
+          <tr><td>Serum amylase</td><td>U/L</td></tr>
+          <tr><td style="color:var(--c-red-l);font-weight:500;">Drain amylase</td><td>U/L — specify source (chest/abdominal/cervical)</td></tr>
+          <tr><td>Arterial pH</td><td>optional</td></tr>
+          <tr><td>Base excess</td><td>optional</td></tr>
+          <tr><td>Bilirubin</td><td>µmol/L — useful for bilious drain</td></tr>
+        </table>
+        <div class="flag flag-purple" style="margin-top:8px;"><span class="flag-icon">📌</span><span>Mode of first suspicion must be recorded: clinical deterioration / drain change / lab abnormality / routine imaging / CT / endoscopy / reoperation</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="leak-sub-imaging" class="sub-panel">
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Investigation modalities performed</div>
+        <table class="data-table">
+          <tr><th>Investigation</th><th>Record</th></tr>
+          <tr><td>Contrast swallow (water-soluble)</td><td>Yes / No — POD performed</td></tr>
+          <tr><td>CT with IV contrast</td><td>Yes / No</td></tr>
+          <tr><td>CT with oral contrast</td><td>Yes / No</td></tr>
+          <tr><td>CT with IV + oral contrast</td><td>Yes / No</td></tr>
+          <tr><td>Endoscopy (OGD)</td><td>Yes / No — findings</td></tr>
+          <tr><td>Bronchoscopy</td><td>Yes / No (if airway fistula suspected)</td></tr>
+          <tr><td>Ultrasound</td><td>Yes / No (if collection suspected)</td></tr>
+          <tr><td>Drain contrast study</td><td>Yes / No</td></tr>
+          <tr><td>Pleural fluid analysis</td><td>Yes / No (if empyema / contamination suspected)</td></tr>
+          <tr><td>Reoperation confirmed leak</td><td>Yes / No</td></tr>
+          <tr><td style="color:var(--c-accent);font-weight:500;">First positive investigation</td><td>First test that actually confirmed diagnosis</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <div class="card-title">Imaging &amp; endoscopy findings</div>
+        <table class="data-table">
+          <tr><th>Finding</th><th>Record</th></tr>
+          <tr><td>Contrast extravasation seen</td><td>Yes / No</td></tr>
+          <tr><td>Extraluminal gas</td><td>Yes / No</td></tr>
+          <tr><td>Mediastinal gas</td><td>Yes / No</td></tr>
+          <tr><td>Pleural gas</td><td>Yes / No</td></tr>
+          <tr><td>Cervical collection</td><td>Yes / No</td></tr>
+          <tr><td>Mediastinal collection</td><td>Yes / No</td></tr>
+          <tr><td>Pleural collection</td><td>Yes / No</td></tr>
+          <tr><td>Abdominal collection</td><td>Yes / No</td></tr>
+          <tr><td>Empyema</td><td>Yes / No</td></tr>
+          <tr><td>Visible anastomotic defect on endoscopy</td><td>Yes / No</td></tr>
+          <tr><td>Estimated circumference of dehiscence (%)</td><td>If seen endoscopically</td></tr>
+          <tr><td>Conduit ischaemia seen</td><td>Yes / No</td></tr>
+          <tr><td>Conduit necrosis seen</td><td>Yes / No</td></tr>
+          <tr><td>Airway fistula / tracheobronchial communication</td><td>Yes / No</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div id="leak-sub-treatment" class="sub-panel">
+    <div class="section-label">Treatment modalities — record primary, secondary, and tertiary management</div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Conservative / medical management</div>
+        <table class="data-table">
+          <tr><td>Nil by mouth</td><td>Yes / No</td></tr>
+          <tr><td>Antibiotics started</td><td>Yes / No</td></tr>
+          <tr><td>Nasogastric decompression</td><td>Yes / No</td></tr>
+          <tr><td>Total parenteral nutrition</td><td>Yes / No</td></tr>
+          <tr><td>Distal enteral feeding continued</td><td>Yes / No</td></tr>
+          <tr><td>ICU transfer for this leak episode</td><td>Yes / No</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <div class="card-title">Interventional (non-surgical)</div>
+        <table class="data-table">
+          <tr><td>Image-guided drainage</td><td>Yes / No — approach</td></tr>
+          <tr><td>Additional chest drain inserted</td><td>Yes / No</td></tr>
+          <tr><td>Cervical wound opening / packing</td><td>Yes / No</td></tr>
+          <tr><td>Endoscopic clip</td><td>Yes / No — type</td></tr>
+          <tr><td>Covered oesophageal stent</td><td>Yes / No — type (plastic / SEMS)</td></tr>
+          <tr><td>Stent success</td><td>Successful / Unsuccessful</td></tr>
+          <tr><td>Stent complication</td><td>Displacement / Erosion / Failure to occlude / Migration / Other</td></tr>
+          <tr><td>Re-stenting required</td><td>Yes / No — total stents used</td></tr>
+          <tr><td style="color:var(--c-purple-l);font-weight:500;">Endoscopic vacuum therapy (EVT)</td><td>Yes / No — total sponge changes</td></tr>
+          <tr><td>EVT success</td><td>Yes / No</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <div class="card-title">Surgical management</div>
+        <table class="data-table">
+          <tr><td>Re-thoracoscopy / re-thoracotomy</td><td>Yes / No</td></tr>
+          <tr><td>Re-laparoscopy / re-laparotomy</td><td>Yes / No</td></tr>
+          <tr><td>Washout only</td><td>Yes / No</td></tr>
+          <tr><td>Anastomotic repair</td><td>Yes / No</td></tr>
+          <tr><td>T-tube insertion</td><td>Yes / No</td></tr>
+          <tr><td>Intercostal / muscle flap repair</td><td>Yes / No</td></tr>
+          <tr><td>Conduit resection</td><td>Yes / No</td></tr>
+          <tr><td>Diversion / cervical oesophagostomy</td><td>Yes / No</td></tr>
+          <tr><td>Feeding jejunostomy created during reoperation</td><td>Yes / No</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <div class="card-title">Treatment timing — key quality metric</div>
+        <table class="data-table">
+          <tr><td>Date of first source control</td><td>Date — first definitive control step</td></tr>
+          <tr><td style="color:var(--c-accent);font-weight:500;">Time from suspicion to source control</td><td>Hours — important quality / timing metric</td></tr>
+          <tr><td>Primary treatment — POD of start</td><td>Numeric</td></tr>
+          <tr><td>Primary treatment successful</td><td>Yes / No</td></tr>
+          <tr><td>Secondary treatment required</td><td>Yes / No</td></tr>
+          <tr><td>Secondary treatment — POD of start</td><td>Numeric</td></tr>
+          <tr><td>Secondary treatment successful</td><td>Yes / No</td></tr>
+          <tr><td>Tertiary treatment required</td><td>Yes / No</td></tr>
+        </table>
+        <div class="flag flag-purple" style="margin-top:8px;"><span class="flag-icon">📊</span><span>Time from suspicion to source control is the primary quality metric for the anastomotic failure sub-study — capture in hours for every episode</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="leak-sub-outcome" class="sub-panel">
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Leak episode outcomes</div>
+        <table class="data-table">
+          <tr><th>Field</th><th>Record</th></tr>
+          <tr><td>Episode resolved without surgery</td><td>Yes / No</td></tr>
+          <tr><td>Date resolved</td><td>Date clinically / radiologically healed</td></tr>
+          <tr><td>ICU required for this episode</td><td>Yes / No</td></tr>
+          <tr><td>ICU days for this episode</td><td>Numeric</td></tr>
+          <tr><td>Organ support required</td><td>Vasopressors / Ventilation / RRT / combination</td></tr>
+          <tr><td>Anastomotic stricture after healing</td><td>Yes / No</td></tr>
+          <tr><td>Recurrent leak during same admission</td><td>Yes / No</td></tr>
+          <tr><td style="color:var(--c-red-l);font-weight:500;">Leak-related death</td><td>Yes / No</td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <div class="card-title">Sub-study analysis framework</div>
+        <ul class="check-list">
+          <li><strong>Primary endpoint:</strong> ECCG leak type at first confirmed event</li>
+          <li><strong>Treatment analysis:</strong> Compare conservative vs endoscopic (stent vs EVT) vs surgical management — by leak type and conduit status</li>
+          <li><strong>Timing analysis:</strong> POD of suspicion → POD confirmed → POD source control</li>
+          <li><strong>Quality metric:</strong> Time (hours) from suspicion to first source control — stratify by detection method</li>
+          <li><strong>Conduit perfusion correlation:</strong> Link intraop ICG findings / surgeon concern to leak occurrence</li>
+          <li><strong>Anastomotic technique comparison:</strong> Hand-sewn vs circular vs linear stapled — leak rate, ECCG type, time to resolution</li>
+          <li><strong>Failure to rescue capture:</strong> Link all leak episodes to overall 30/90-day mortality outcome</li>
+        </ul>
+        <div class="flag flag-purple" style="margin-top:8px;"><span class="flag-icon">📌</span><span>Every patient with a confirmed leak or conduit necrosis episode must have the full leak instrument completed, not just the complication flag in the main database</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ DATASET ═══════════════════ -->
+<div id="tab-dataset" class="tab-panel">
+  <div class="phase-header">
+    <span class="phase-badge" style="background:var(--c-green-bg);color:var(--c-green-l);border-color:rgba(63,185,80,0.3);">Database</span>
+    <div>
+      <div class="phase-title">Full Dataset Reference</div>
+      <div class="phase-desc">All data fields collected throughout the perioperative pathway — required and optional</div>
+    </div>
+  </div>
+
+  <div class="sub-tabs">
+    <button class="sub-tab active" onclick="showSub('dataset', 'preop-data', this)">Patient &amp; tumour</button>
+    <button class="sub-tab" onclick="showSub('dataset', 'optimisation', this)">Risk &amp; optimisation</button>
+    <button class="sub-tab" onclick="showSub('dataset', 'operative', this)">Operative</button>
+    <button class="sub-tab" onclick="showSub('dataset', 'pathology', this)">Pathology</button>
+    <button class="sub-tab" onclick="showSub('dataset', 'discharge', this)">Discharge &amp; follow-up</button>
+  </div>
+
+  <div id="dataset-sub-preop-data" class="sub-panel active">
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Patient demographics &amp; comorbidities</div>
+        <table class="data-table">
+          <tr><th>Field</th><th>Type / Options</th><th style="text-align:center;">Status</th></tr>
+          <tr><td>Study ID</td><td>Unique identifier</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Hospital number / MRN</td><td>Local identifier (not in central DB)</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Date of birth</td><td>For age calculation</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Age at surgery</td><td>Years</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Sex</td><td>Male / Female</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Height / weight / BMI</td><td>cm / kg / calculated</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>ASA class</td><td>I / II / III / IV</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>ECOG performance status</td><td>0–4</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Charlson Comorbidity Index</td><td>Score</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Hypertension</td><td>Yes / No</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Ischaemic heart disease</td><td>Yes / No</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Previous MI</td><td>Yes / No</td><td style="text-align:center;"><span class="badge badge-key">Key</span></td></tr>
+          <tr><td>Congestive heart failure</td><td>Yes / No</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Arrhythmia before surgery</td><td>Yes / No (includes AF/flutter)</td><td style="text-align:center;"><span class="badge badge-key">Key</span></td></tr>
+          <tr><td>Peripheral vascular disease</td><td>Yes / No</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Previous stroke / TIA</td><td>Yes / No</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>COPD / asthma</td><td>Yes / No</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Chronic kidney disease</td><td>Yes / No</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Diabetes mellitus</td><td>Yes / No</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Chronic liver disease</td><td>Yes / No</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Previous thoracic surgery</td><td>Yes / No</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Previous upper abdominal surgery</td><td>Yes / No</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Smoking status</td><td>Never / Ex-smoker / Current</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Date of smoking cessation</td><td>If ex-smoker</td><td style="text-align:center;"><span class="badge badge-opt">Opt</span></td></tr>
+          <tr><td>Alcohol excess</td><td>Clinically relevant excess</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Weight loss before treatment</td><td>% and/or yes/no</td><td style="text-align:center;"><span class="badge badge-key">Key</span></td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <div class="card-title">Tumour &amp; staging</div>
+        <table class="data-table">
+          <tr><th>Field</th><th>Type / Options</th><th style="text-align:center;">Status</th></tr>
+          <tr><td>Tumour histology</td><td>Adenocarcinoma / SCC / Other</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Tumour grade</td><td>Well / Moderate / Poor / Other</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Tumour location</td><td>Upper / Middle / Lower oesophagus / GEJ</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Siewert type</td><td>Type I / II / III (for GEJ tumours)</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Clinical T stage (cT)</td><td>cT0–cT4b</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Clinical N stage (cN)</td><td>cN0–cN3</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Clinical M stage (cM)</td><td>cM0 / cM1</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Overall clinical stage</td><td>I / II / III / IV</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>PET-CT performed</td><td>Yes / No</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Endoscopic ultrasound (EUS)</td><td>Yes / No</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Diagnostic laparoscopy</td><td>Yes / No</td><td style="text-align:center;"><span class="badge badge-opt">Opt</span></td></tr>
+          <tr><td>Positive peritoneal cytology</td><td>Yes / No / Not done</td><td style="text-align:center;"><span class="badge badge-opt">Opt</span></td></tr>
+          <tr><td>Suspicious coeliac trunk stenosis on CT</td><td>Yes / No</td><td style="text-align:center;"><span class="badge badge-sub">Sub</span></td></tr>
+          <tr><td>Marked aortic / major vascular calcification on CT</td><td>Yes / No</td><td style="text-align:center;"><span class="badge badge-sub">Sub</span></td></tr>
+          <tr><td>MDT date</td><td>Date of MDT discussion</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Treating surgeon</td><td>Lead surgeon</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div id="dataset-sub-optimisation" class="sub-panel">
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Risk assessment &amp; optimisation fields</div>
+        <table class="data-table">
+          <tr><th>Field</th><th>Type</th><th style="text-align:center;">Status</th></tr>
+          <tr><td>Frailty assessment performed</td><td>Yes / No</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Frailty tool used</td><td>CFS / mFI / Other</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Frailty score</td><td>Numeric</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Sarcopenia assessment performed</td><td>Yes / No</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>CT body composition reviewed</td><td>Yes / No</td><td style="text-align:center;"><span class="badge badge-key">Key</span></td></tr>
+          <tr><td>Six-minute walk test performed</td><td>Yes / No</td><td style="text-align:center;"><span class="badge badge-key">Key</span></td></tr>
+          <tr><td>Six-minute walk distance (m)</td><td>Numeric</td><td style="text-align:center;"><span class="badge badge-key">Key</span></td></tr>
+          <tr><td>CPET performed</td><td>Yes / No</td><td style="text-align:center;"><span class="badge badge-key">Key</span></td></tr>
+          <tr><td>Anaerobic threshold (mL/kg/min)</td><td>Numeric</td><td style="text-align:center;"><span class="badge badge-key">Key</span></td></tr>
+          <tr><td>Respiratory prehabilitation started</td><td>Yes / No</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Date prehabilitation started</td><td>Date</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Dietitian review completed</td><td>Yes / No</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Nutritional risk screening score</td><td>NRS-2002 or local tool</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Weight loss last 1 month (%)</td><td>Percentage</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Weight loss last 6 months (%)</td><td>Percentage</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Dysphagia severity</td><td>Graded scale</td><td style="text-align:center;"><span class="badge badge-key">Key</span></td></tr>
+          <tr><td>Vomiting / regurgitation</td><td>Yes / No</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Gastric outlet obstruction symptoms</td><td>Yes / No</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Preoperative nutritional support</td><td>None / Oral / Enteral / Parenteral</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Smoking cessation programme started</td><td>Yes / No</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <div class="card-title">Baseline &amp; pre-op labs + neoadjuvant treatment</div>
+        <table class="data-table">
+          <tr><th>Lab field</th><th>Timing</th><th style="text-align:center;">Status</th></tr>
+          <tr><td>Haemoglobin</td><td>Baseline pre-op</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>WBC, neutrophils, platelets</td><td>Baseline pre-op</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Creatinine / eGFR</td><td>Baseline pre-op</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Albumin</td><td>Baseline pre-op</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>LFTs (ALT/AST/ALP/GGT/bili)</td><td>Baseline pre-op</td><td style="text-align:center;"><span class="badge badge-key">Key</span></td></tr>
+          <tr><td>Iron studies / B12 / folate</td><td>If anaemia suspected</td><td style="text-align:center;"><span class="badge badge-opt">Opt</span></td></tr>
+          <tr><td>CRP</td><td>Pre-op baseline</td><td style="text-align:center;"><span class="badge badge-opt">Opt</span></td></tr>
+          <tr><td>Serum amylase</td><td>Baseline for comparison</td><td style="text-align:center;"><span class="badge badge-opt">Opt</span></td></tr>
+        </table>
+        <div style="margin-top:14px;font-size:11px;color:var(--c-text3);font-weight:600;text-transform:uppercase;margin-bottom:8px;">Neoadjuvant treatment record</div>
+        <table class="data-table">
+          <tr><td>Treatment type</td><td>Chemo / ChemoRT / RT / Immunotherapy</td></tr>
+          <tr><td>Regimen name</td><td>FLOT, CROSS, etc.</td></tr>
+          <tr><td>Cycle / block number</td><td>Sequential</td></tr>
+          <tr><td>Start date / end date</td><td>Dates</td></tr>
+          <tr><td>Dose reduction required</td><td>Yes / No</td></tr>
+          <tr><td>Treatment stopped early</td><td>Yes / No — reason</td></tr>
+          <tr><td>Best recorded response</td><td>Radiologic / clinical</td></tr>
+          <tr><td>Date of last treatment before surgery</td><td>For timing analysis</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div id="dataset-sub-operative" class="sub-panel">
+    <div class="card">
+      <div class="card-title">Full operative dataset — see Intraoperative tab for details</div>
+      <div style="font-size:12px;color:var(--c-text2);margin-bottom:12px;">Summary of all fields collected on the day of surgery across surgical and anaesthetic records</div>
+      <div class="grid-3">
+        <div>
+          <div style="font-size:11px;color:var(--c-text3);font-weight:600;text-transform:uppercase;margin-bottom:6px;">Procedure</div>
+          <ul class="check-list">
+            <li>Date of surgery</li>
+            <li>Procedure type &amp; intent</li>
+            <li>Abdominal &amp; thoracic approach</li>
+            <li>Conversion to open</li>
+            <li>Multivisceral resection</li>
+            <li>Lymphadenectomy type</li>
+            <li>Duration of surgery (min)</li>
+            <li>Duration SLV (min)</li>
+            <li>Blood loss &amp; transfusion</li>
+            <li>Intraop complications</li>
+          </ul>
+        </div>
+        <div>
+          <div style="font-size:11px;color:var(--c-text3);font-weight:600;text-transform:uppercase;margin-bottom:6px;">Conduit &amp; anastomosis</div>
+          <ul class="check-list">
+            <li>Conduit type &amp; width</li>
+            <li>Pyloric procedure</li>
+            <li>Anastomotic site</li>
+            <li>Anastomotic technique</li>
+            <li>Anastomotic configuration</li>
+            <li>Reinforcement used</li>
+            <li>Integrity tested intraop</li>
+            <li>ICG assessment</li>
+            <li>Surgeon concern re: perfusion</li>
+            <li>Nutritional access created</li>
+          </ul>
+        </div>
+        <div>
+          <div style="font-size:11px;color:var(--c-text3);font-weight:600;text-transform:uppercase;margin-bottom:6px;">Anaesthetic</div>
+          <ul class="check-list">
+            <li>SLV method &amp; duration</li>
+            <li>Extubation same day</li>
+            <li>Vasopressor type &amp; duration</li>
+            <li>IV fluids (crystalloid / colloid)</li>
+            <li>Intraop transfusion</li>
+            <li>Regional analgesia type</li>
+            <li>Lactate — 0h / 6h / 24h</li>
+            <li>Primary ICU admission</li>
+            <li>Duration ventilation (h)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="dataset-sub-pathology" class="sub-panel">
+    <div class="card">
+      <div class="card-title">Final histopathology — record after resection</div>
+      <table class="data-table">
+        <tr><th>Field</th><th>Options / Detail</th><th style="text-align:center;">Status</th></tr>
+        <tr><td>Final histology</td><td>Adenocarcinoma / SCC / Other</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+        <tr><td>ypT stage (post-treatment T)</td><td>ypT0–ypT4b (8th edition)</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+        <tr><td>ypN stage (post-treatment N)</td><td>ypN0–ypN3</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+        <tr><td>ypM stage</td><td>ypM0 / ypM1 if applicable</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+        <tr><td>Final pathological stage group</td><td>0 / I / II / III / IV</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+        <tr><td>Number of lymph nodes removed</td><td>Numeric</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+        <tr><td>Number of positive lymph nodes</td><td>Numeric</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+        <tr><td>Resection margin status</td><td>R0 (microscopic radical) / R1 (microscopic irradical) / R2 (macroscopic residual)</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+        <tr><td>Proximal margin</td><td>Clear / Involved (&lt;1 mm)</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+        <tr><td>Distal margin</td><td>Clear / Involved (&lt;1 mm)</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+        <tr><td>Circumferential / radial margin</td><td>Clear / Involved (&lt;1 mm)</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+        <tr><td>Lymphovascular invasion</td><td>Yes / No</td><td style="text-align:center;"><span class="badge badge-key">Key</span></td></tr>
+        <tr><td>Perineural invasion</td><td>Yes / No</td><td style="text-align:center;"><span class="badge badge-key">Key</span></td></tr>
+        <tr><td>Tumour regression grade</td><td>Local system (Mandard / Becker / other)</td><td style="text-align:center;"><span class="badge badge-key">Key</span></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div id="dataset-sub-discharge" class="sub-panel">
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">Discharge &amp; readmission</div>
+        <table class="data-table">
+          <tr><th>Field</th><th>Options</th><th style="text-align:center;">Status</th></tr>
+          <tr><td>Date of discharge</td><td>End of index stay</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Total length of stay (days)</td><td>Numeric</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Total ICU stay (days)</td><td>Numeric — sum of all ICU periods</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Discharged eating and drinking</td><td>Yes / No</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Feeding route at discharge</td><td>Oral / Enteral (jejunostomy) / Parenteral / Mixed</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Readmission (30-day)</td><td>Yes / No</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Date of readmission</td><td>If applicable</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Reason for readmission</td><td>Free text or coded list</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>ICU readmission</td><td>Yes / No</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Reason for ICU readmission</td><td>Free text</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+        </table>
+      </div>
+      <div class="card">
+        <div class="card-title">Mortality &amp; composite outcomes</div>
+        <table class="data-table">
+          <tr><th>Field</th><th>Options</th><th style="text-align:center;">Status</th></tr>
+          <tr><td>30-day mortality</td><td>Yes / No</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>90-day mortality</td><td>Yes / No</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>In-hospital / 30-day mortality</td><td>Yes / No</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Date of death</td><td>If applicable</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Cause of death</td><td>Free text or coded</td><td style="text-align:center;"><span class="badge badge-req">Req</span></td></tr>
+          <tr><td>Leak-related death</td><td>Yes / No — link to leak episode</td><td style="text-align:center;"><span class="badge badge-sub">Sub</span></td></tr>
+          <tr><td>Textbook outcome achieved</td><td>Yes / No — per local definition</td><td style="text-align:center;"><span class="badge badge-opt">Opt</span></td></tr>
+          <tr><td>Failure to rescue</td><td>Death after confirmed complication Y/N</td><td style="text-align:center;"><span class="badge badge-key">Key</span></td></tr>
+        </table>
+        <div style="margin-top:12px;font-size:11px;color:var(--c-text3);font-weight:600;text-transform:uppercase;margin-bottom:6px;">Badge legend</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <span class="badge badge-req">Required</span><span style="font-size:11px;color:var(--c-text2);">Must collect</span>
+          <span class="badge badge-key">Key</span><span style="font-size:11px;color:var(--c-text2);">Clinically important</span>
+          <span class="badge badge-sub">Sub</span><span style="font-size:11px;color:var(--c-text2);">Substudy only</span>
+          <span class="badge badge-opt">Opt</span><span style="font-size:11px;color:var(--c-text2);">Optional / if available</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<script>
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+function showSub(tab, sub, btn) {
+  var prefix = tab + '-sub-';
+  document.querySelectorAll('[id^="' + prefix + '"]').forEach(p => p.classList.remove('active'));
+  btn.closest('.tab-panel').querySelectorAll('.sub-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById(prefix + sub).classList.add('active');
+  btn.classList.add('active');
+}
+function toggleColl(header) {
+  var body = header.nextElementSibling;
+  header.classList.toggle('open');
+  body.classList.toggle('open');
+}
+</script>
+</body>
+</html>
